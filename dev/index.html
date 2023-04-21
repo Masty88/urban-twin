@@ -9,7 +9,10 @@
 <body>
 <map-viewer
         cesium-base-url="/static/"
-        data='[["boundary", { "url": "/static/data/boudry.json", "clamp": true }]]'
+        data='[
+        ["boundary", { "url": "/static/data/boudry.json", "clamp": true }],
+        ["solar", { "url": "/static/data/solar.geojson", "clamp": false }]
+        ]'
 ></map-viewer>
 
 <script type="module" src="../map-viewer.js"></script>

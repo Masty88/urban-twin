@@ -31,13 +31,14 @@ Import the custom element and use it in your HTML:
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<map-viewer
-        cesium-base-url="/static/"
-        data='[
-        ["boundary", { "url": "/static/data/your-file", "clamp": true }],
-        ["solar", { "url": "/static/data/your-file", "clamp": false }]
-        ]'
-></map-viewer>
+
+    <map-viewer
+            cesium-base-url="/static/"
+            data='[
+            ["boundary", { "url": "/static/data/your-file", "clamp": true }],
+            ["solar", { "url": "/static/data/your-file", "clamp": false }]
+            ]'>
+    </map-viewer>
 
 <script type="module" src="../map-viewer.js"></script>
 </body>

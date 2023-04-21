@@ -13,9 +13,8 @@ export const CesiumDataSourceMixin = <T extends Constructor<LitElement>>(SuperCl
         async addData(data: string, clamp: boolean) {
             console.log('Loading data:', data);
             try {
-                const dataSource = await GeoJsonDataSource.load(data);
-                const propertyName = `${dataSource.name}DataSource`;
-                this.dataSources = { ...this.dataSources, [propertyName]: dataSource };
+                GeoJsonDataSource.clampToGround = true
+                const dataSource: GeoJsonDataSource = await GeoJsonDataSource.load(data);
                 (this as any)._viewer?.dataSources.add(dataSource);
                 clamp && this.clampPolygonsToGround(dataSource);
                 this.requestUpdate();

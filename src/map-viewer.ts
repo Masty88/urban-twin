@@ -8,6 +8,7 @@ import {CesiumDataSourceMixin} from "./mixins/dataMixin";
 @customElement('map-viewer')
 export class MapViewer extends CesiumDataSourceMixin(LitElement){
     static override styles = styles;
+
     @property({ type: String, attribute: 'cesium-base-url' })
     cesiumBaseURL = '';
 
@@ -17,18 +18,13 @@ export class MapViewer extends CesiumDataSourceMixin(LitElement){
     @property({ type: Object, converter: {
             fromAttribute: (value:any) => {
                 try {
-                    console.log(value)
                     return new Map(JSON.parse(value));
                 } catch {
                     return new Map();
                 }
             },
-            toAttribute: (value:any) => JSON.stringify(Array.from(value.entries()))
         }})
     data: Map<string, { url: string; clamp: boolean }> = new Map();
-    //
-    // @property({type: String})
-    // data=""
 
     private _viewer: Viewer | undefined;
 
@@ -46,7 +42,6 @@ export class MapViewer extends CesiumDataSourceMixin(LitElement){
                     await (this as any).addData(value.url, value.clamp);
                 }
         }
-        // console.log(Array.from(this.data.entries()));
     }
 
     override async firstUpdated() {

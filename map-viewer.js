@@ -28,7 +28,6 @@ let MapViewer = class MapViewer extends CesiumDataSourceMixin(LitElement) {
                 await this.addData(value.url, value.clamp);
             }
         }
-        // console.log(Array.from(this.data.entries()));
     }
     async firstUpdated() {
         var _a;
@@ -64,14 +63,12 @@ __decorate([
     property({ type: Object, converter: {
             fromAttribute: (value) => {
                 try {
-                    console.log(value);
                     return new Map(JSON.parse(value));
                 }
                 catch {
                     return new Map();
                 }
             },
-            toAttribute: (value) => JSON.stringify(Array.from(value.entries()))
         } })
 ], MapViewer.prototype, "data", void 0);
 MapViewer = __decorate([
