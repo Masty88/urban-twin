@@ -1,4 +1,4 @@
-:map: # Map Viewer 
+# Map Viewer :map:
 
 Based on Uzufly cesium-viewer https://github.com/uzufly/exploratory<br/>
 <br/>
