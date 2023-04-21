@@ -14,11 +14,21 @@ export class MapViewer extends CesiumDataSourceMixin(LitElement){
     @property({ type: String, attribute: 'ion-token' })
     ionToken = '';
 
-    @property({ type: String, attribute: `data` })
-    data: string = '';
-
-    @property({type: String, attribute: 'clamp-polygon'})
-    clampPolygon = ''
+    @property({ type: Object, converter: {
+            fromAttribute: (value:any) => {
+                try {
+                    console.log(value)
+                    return new Map(JSON.parse(value));
+                } catch {
+                    return new Map();
+                }
+            },
+            toAttribute: (value:any) => JSON.stringify(Array.from(value.entries()))
+        }})
+    data: Map<string, { url: string; clamp: boolean }> = new Map();
+    //
+    // @property({type: String})
+    // data=""
 
     private _viewer: Viewer | undefined;
 
@@ -30,20 +40,13 @@ export class MapViewer extends CesiumDataSourceMixin(LitElement){
     }
 
 
-    // override async attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    //     if (name.startsWith('data-') && newValue) {
-    //         await (this as any).addData(newValue);
-    //         console.log("here")
-    //     }
-    //     super.attributeChangedCallback(name, oldValue, newValue);
-    // }
-
     override async updated(changedProperties: Map<string, unknown>) {
-        if (changedProperties.has('data') && this.data) {
-
-            console.log("here")
-            await (this as any).addData(this.data, this.clampPolygon);
+        if (changedProperties.has('data') && this.data.size >0) {
+                for (const [key, value] of this.data.entries()) {
+                    await (this as any).addData(value.url, value.clamp);
+                }
         }
+        // console.log(Array.from(this.data.entries()));
     }
 
     override async firstUpdated() {

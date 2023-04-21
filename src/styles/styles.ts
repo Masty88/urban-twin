@@ -1,6 +1,23 @@
 import {css} from 'lit';
 
 export const styles = css`
+
+  :host {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #cesiumContainer {
+    width: 100%;
+    height: 100%;
+  }
+
+  #cesiumContainer canvas {
+    width: 100% !important;
+    height: 100vh !important;
+  }
+  
   /* packages/widgets/Source/shared.css */
   .cesium-svgPath-svg {
     position: absolute;

@@ -4,8 +4,10 @@ export declare class MapViewer extends MapViewer_base {
     static styles: import("lit").CSSResult;
     cesiumBaseURL: string;
     ionToken: string;
-    data: string;
-    clampPolygon: string;
+    data: Map<string, {
+        url: string;
+        clamp: boolean;
+    }>;
     private _viewer;
     render(): import("lit-html").TemplateResult<1>;
     updated(changedProperties: Map<string, unknown>): Promise<void>;

@@ -14,13 +14,13 @@ export const CesiumDataSourceMixin = (SuperClass) => {
         }
         async addData(data, clamp) {
             var _a;
-            console.log(data);
+            console.log('Loading data:', data);
             try {
                 const dataSource = await GeoJsonDataSource.load(data);
                 const propertyName = `${dataSource.name}DataSource`;
                 this.dataSources = { ...this.dataSources, [propertyName]: dataSource };
                 (_a = this._viewer) === null || _a === void 0 ? void 0 : _a.dataSources.add(dataSource);
-                clamp.includes("clamp") && this.clampPolygonsToGround(dataSource);
+                clamp && this.clampPolygonsToGround(dataSource);
                 this.requestUpdate();
             }
             catch (error) {
