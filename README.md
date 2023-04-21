@@ -1,6 +1,7 @@
 # Map Viewer
 
-Work in progress
+Based on Uzufly cesium-viewer https://github.com/uzufly/exploratory
+Work in progress <br/>
 A custom Web Component for rendering 3D maps using the Cesium JavaScript library. The `map-viewer` component allows users to add multiple data layers with customizable clamp settings. The component is built with Lit, a modern, lightweight library for building Web Components.
 
 ## Features
@@ -15,7 +16,7 @@ A custom Web Component for rendering 3D maps using the Cesium JavaScript library
 Add the following command to your project to install the required dependencies:
 
 ```
-npm install lit cesium
+npm install
 ```
 ## Usage
 
