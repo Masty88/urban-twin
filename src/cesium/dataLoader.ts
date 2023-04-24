@@ -1,11 +1,11 @@
 import {Color, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
 
-export async function addData(viewer: any, data: string, clamp: boolean) : Promise< DataSource | undefined> {
+export async function addData(viewer: any, data: string, contour: boolean) : Promise< DataSource | undefined> {
     try {
         GeoJsonDataSource.clampToGround = true
         const dataSource = await GeoJsonDataSource.load(data);
         viewer.dataSources.add(dataSource);
-        clamp && clampPolygonsToGround(viewer,dataSource);
+        contour && drawContour(viewer,dataSource);
         return dataSource
     } catch (error) {
         console.error('Error loading data:', error);
@@ -13,7 +13,7 @@ export async function addData(viewer: any, data: string, clamp: boolean) : Promi
     return undefined;
 }
 
-function clampPolygonsToGround(viewer: any,dataSource: DataSource) {
+function drawContour(viewer: any,dataSource: DataSource) {
     const entities = dataSource.entities.values;
     entities.forEach((e: Entity) => {
         if (e.polygon?.hierarchy) {
@@ -25,7 +25,7 @@ function clampPolygonsToGround(viewer: any,dataSource: DataSource) {
                     clampToGround: true,
                 },
             });
-            dataSource.entities.remove(e);
+            // dataSource.entities.remove(e);
         }
     });
 }

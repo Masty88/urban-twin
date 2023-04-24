@@ -1,7 +1,27 @@
 import {css} from 'lit';
 
 export const styles = css`
-
+  #buttonContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .toggleButton {
+    border-radius: 50%;
+    padding: 8px 12px;
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 4px;
+  }
+  
   :host {
     display: block;
     width: 100%;

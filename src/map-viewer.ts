@@ -1,11 +1,11 @@
 import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
+import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers";
 import { addData } from './cesium/dataLoader';
 
 import {styles} from "./styles/styles";
-import {Viewer} from "cesium";
+import {DataSource, Viewer} from "cesium";
 
 
 
@@ -28,7 +28,7 @@ export class MapViewer extends LitElement{
                 }
             },
         }})
-    data: Map<string, { url: string; clamp: boolean }> = new Map();
+    data: Map<string, { url: string; contour: boolean, dataSource:DataSource | undefined  }> = new Map();
 
     private _viewer: Viewer | undefined;
 
@@ -36,15 +36,38 @@ export class MapViewer extends LitElement{
         return html`
       <div id="cesiumContainer">
       </div>
+      <div id="buttonContainer">
+          ${Array.from(this.data.entries()).map(
+                  ([key, _]) => html`
+            <button
+              class="toggleButton"
+              @click="${() => this.toggleDataVisibility(key)}"
+            >
+              Toggle ${key}
+            </button>
+          `
+          )}
+      </div>
     `;
+    }
+
+    toggleDataVisibility(key: string) {
+        const data  = this.data.get(key);
+        if (data && data.dataSource) {
+            console.log("here")
+            data.dataSource.show = !data.dataSource.show;
+        }
     }
 
 
     override async updated(changedProperties: Map<string, unknown>) {
+        console.log(Array.from(this.data.entries()))
         if (changedProperties.has('data') && this.data.size >0) {
                 for (const [_, value] of this.data.entries()) {
-                    const dataSource = await addData(this._viewer,value.url, value.clamp);
+                    console.log(value)
+                    const dataSource = await addData(this._viewer,value.url, value.contour);
                     await zoomToDataSource(this._viewer, dataSource)
+                    value.dataSource = dataSource;
                 }
 
         }
