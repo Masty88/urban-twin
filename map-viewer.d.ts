@@ -1,6 +1,5 @@
 import { LitElement } from 'lit';
-declare const MapViewer_base: typeof LitElement;
-export declare class MapViewer extends MapViewer_base {
+export declare class MapViewer extends LitElement {
     static styles: import("lit").CSSResult;
     cesiumBaseURL: string;
     ionToken: string;
@@ -18,5 +17,4 @@ declare global {
         'map-viewer': MapViewer;
     }
 }
-export {};
 //# sourceMappingURL=map-viewer.d.ts.map

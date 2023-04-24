@@ -1,12 +1,16 @@
 import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { createWorldTerrain,createOsmBuildings,Viewer } from 'cesium';
+
+import { createCesiumViewer } from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
+import { addData } from './cesium/dataLoader';
+
 import {styles} from "./styles/styles";
-import {CesiumDataSourceMixin} from "./mixins/dataMixin";
+import {Viewer} from "cesium";
+
 
 
 @customElement('map-viewer')
-export class MapViewer extends CesiumDataSourceMixin(LitElement){
+export class MapViewer extends LitElement{
     static override styles = styles;
 
     @property({ type: String, attribute: 'cesium-base-url' })
@@ -38,38 +42,18 @@ export class MapViewer extends CesiumDataSourceMixin(LitElement){
 
     override async updated(changedProperties: Map<string, unknown>) {
         if (changedProperties.has('data') && this.data.size >0) {
-                for (const [key, value] of this.data.entries()) {
-                    await (this as any).addData(value.url, value.clamp);
+                for (const [_, value] of this.data.entries()) {
+                    await addData(this._viewer,value.url, value.clamp);
                 }
         }
     }
 
     override async firstUpdated() {
         super.connectedCallback();
-
-        if (this.cesiumBaseURL) {
-            window.CESIUM_BASE_URL = this.cesiumBaseURL;
-        }
-
-        this._viewer = new Viewer(
-            this.shadowRoot!.getElementById('cesiumContainer')!,
-            {
-                animation: false,
-                homeButton: false,
-                baseLayerPicker: false,
-                geocoder: false,
-                infoBox: true,
-                sceneModePicker: true,
-                selectionIndicator: false,
-                timeline: false,
-                navigationInstructionsInitiallyVisible: false,
-                navigationHelpButton: false,
-                shadows: true,
-                terrainProvider : createWorldTerrain()
-            }
+        this._viewer = createCesiumViewer(
+            this.shadowRoot!.getElementById("cesiumContainer")!,
+            this.cesiumBaseURL
         );
-
-        this._viewer?.scene.primitives.add(createOsmBuildings());
     }
 
 }
