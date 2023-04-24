@@ -21,12 +21,12 @@ let MapViewer = class MapViewer extends LitElement {
       <div id="cesiumContainer">
       </div>
       <div id="buttonContainer">
-          ${Array.from(this.data.entries()).map(([key, _]) => html `
+          ${Array.from(this.data.entries()).map(([key, value]) => html `
             <button
               class="toggleButton"
               @click="${() => this.toggleDataVisibility(key)}"
             >
-              Toggle ${key}
+                ${value.icon ? html `<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
             </button>
           `)}
       </div>
@@ -34,8 +34,8 @@ let MapViewer = class MapViewer extends LitElement {
     }
     toggleDataVisibility(key) {
         const data = this.data.get(key);
+        console.log("key is " + key);
         if (data && data.dataSource) {
-            console.log("here");
             data.dataSource.show = !data.dataSource.show;
         }
     }

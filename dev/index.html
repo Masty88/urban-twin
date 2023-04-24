@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+
 <map-viewer
         cesium-base-url="/static/"
         data='[
-        ["boundary", { "url": "/static/data/boudry.json", "clamp": true }],
-        ["solar", { "url": "/static/data/solar.geojson", "clamp": false }]
+        ["boundary", { "url": "/static/data/boudry.json", "contour": true}],
+        ["solar", { "url": "/static/data/solar.geojson", "contour": false, "icon": "/static/icons/solar-power.svg"}]
         ]'
 ></map-viewer>
 

@@ -61,6 +61,10 @@
       "staticPath": "src/assets/img"
     },
     {
+      "staticOutPath": "static/icons",
+      "staticPath": "src/assets/icons"
+    },
+    {
       "staticOutPath": "static/Assets",
       "staticPath": "node_modules/cesium/Build/Cesium/Assets"
     },

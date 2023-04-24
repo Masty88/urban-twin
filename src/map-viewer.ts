@@ -28,7 +28,7 @@ export class MapViewer extends LitElement{
                 }
             },
         }})
-    data: Map<string, { url: string; contour: boolean, dataSource:DataSource | undefined  }> = new Map();
+    data: Map<string, { url: string; contour: boolean, icon: string | undefined, dataSource:DataSource | undefined  }> = new Map();
 
     private _viewer: Viewer | undefined;
 
@@ -38,12 +38,12 @@ export class MapViewer extends LitElement{
       </div>
       <div id="buttonContainer">
           ${Array.from(this.data.entries()).map(
-                  ([key, _]) => html`
+                  ([key, value]) => html`
             <button
               class="toggleButton"
               @click="${() => this.toggleDataVisibility(key)}"
             >
-              Toggle ${key}
+                ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
             </button>
           `
           )}
@@ -53,8 +53,8 @@ export class MapViewer extends LitElement{
 
     toggleDataVisibility(key: string) {
         const data  = this.data.get(key);
+        console.log("key is " + key)
         if (data && data.dataSource) {
-            console.log("here")
             data.dataSource.show = !data.dataSource.show;
         }
     }

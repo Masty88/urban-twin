@@ -7,6 +7,7 @@ export declare class MapViewer extends LitElement {
     data: Map<string, {
         url: string;
         contour: boolean;
+        icon: string | undefined;
         dataSource: DataSource | undefined;
     }>;
     private _viewer;
