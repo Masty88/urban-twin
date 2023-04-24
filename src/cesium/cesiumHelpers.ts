@@ -1,4 +1,4 @@
-import { Viewer, createWorldTerrain, createOsmBuildings } from "cesium";
+import {Viewer, createWorldTerrain, createOsmBuildings, DataSource} from "cesium";
 
 export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string): Viewer {
     if (cesiumBaseURL) {
@@ -23,4 +23,16 @@ export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string
     viewer.scene.primitives.add(createOsmBuildings());
 
     return viewer;
+}
+
+export async function zoomToDataSource(viewer: Viewer | undefined, dataSource: DataSource | undefined) {
+    if (viewer && dataSource) {
+        try {
+            await viewer.zoomTo(dataSource);
+        } catch (error) {
+            console.error('Error zooming to data source:', error);
+        }
+    } else {
+        console.error('Error: Viewer or data source is undefined');
+    }
 }

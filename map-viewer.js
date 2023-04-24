@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { createCesiumViewer } from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
+import { createCesiumViewer, zoomToDataSource } from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
 import { addData } from './cesium/dataLoader';
 import { styles } from "./styles/styles";
 let MapViewer = class MapViewer extends LitElement {
@@ -25,7 +25,8 @@ let MapViewer = class MapViewer extends LitElement {
     async updated(changedProperties) {
         if (changedProperties.has('data') && this.data.size > 0) {
             for (const [_, value] of this.data.entries()) {
-                await addData(this._viewer, value.url, value.clamp);
+                const dataSource = await addData(this._viewer, value.url, value.clamp);
+                await zoomToDataSource(this._viewer, dataSource);
             }
         }
     }

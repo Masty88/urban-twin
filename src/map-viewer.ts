@@ -1,7 +1,7 @@
 import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { createCesiumViewer } from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
+import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers"; // <-- aggiungi l'importazione qui
 import { addData } from './cesium/dataLoader';
 
 import {styles} from "./styles/styles";
@@ -43,8 +43,10 @@ export class MapViewer extends LitElement{
     override async updated(changedProperties: Map<string, unknown>) {
         if (changedProperties.has('data') && this.data.size >0) {
                 for (const [_, value] of this.data.entries()) {
-                    await addData(this._viewer,value.url, value.clamp);
+                    const dataSource = await addData(this._viewer,value.url, value.clamp);
+                    await zoomToDataSource(this._viewer, dataSource)
                 }
+
         }
     }
 
