@@ -11,7 +11,8 @@
 <map-viewer
         cesium-base-url="/static/"
         data='[
-        ["boundary", { "url": "/static/data/boudry.json", "contour": true}],
+        ["boundary", { "url": "/static/data/boudry.json", "contour": true, "icon": "/static/icons/map-line.svg"}],
+        ["zone", { "url": "/static/data/zone_boudry.geojson", "contour": false}],
         ["solar", { "url": "/static/data/solar.geojson", "contour": false, "icon": "/static/icons/solar-power.svg"}]
         ]'
 ></map-viewer>

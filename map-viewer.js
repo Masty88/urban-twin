@@ -40,7 +40,7 @@ let MapViewer = class MapViewer extends LitElement {
         }
     }
     async updated(changedProperties) {
-        console.log(Array.from(this.data.entries()));
+        console.log("updated");
         if (changedProperties.has('data') && this.data.size > 0) {
             for (const [_, value] of this.data.entries()) {
                 console.log(value);

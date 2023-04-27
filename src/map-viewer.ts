@@ -2,7 +2,7 @@ import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers";
-import { addData } from './cesium/dataLoader';
+import {addData, drawContour} from './cesium/dataLoader';
 
 import {styles} from "./styles/styles";
 import {DataSource, Viewer} from "cesium";
@@ -61,7 +61,7 @@ export class MapViewer extends LitElement{
 
 
     override async updated(changedProperties: Map<string, unknown>) {
-        console.log(Array.from(this.data.entries()))
+        console.log("updated")
         if (changedProperties.has('data') && this.data.size >0) {
                 for (const [_, value] of this.data.entries()) {
                     console.log(value)
