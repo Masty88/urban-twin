@@ -1,6 +1,6 @@
 # Map Viewer 🗺
 
-Based on Uzufly cesium-viewer https://github.com/uzufly/exploratory<br/>
+
 <br/>
 Work in progress <br/>
 <br/>
