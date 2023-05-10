@@ -15,7 +15,17 @@ let MapViewer = class MapViewer extends LitElement {
         this.cesiumBaseURL = '';
         this.ionToken = '';
         this.dataTerrain = '';
-        this.tilesetUrl = [];
+        // @property({ type: Array,attribute: 'data-tileset', converter: {
+        //         fromAttribute: (value: any) => {
+        //             try {
+        //                 return JSON.parse(value);
+        //             } catch {
+        //                 return [];
+        //             }
+        //         },
+        //     }})
+        // tilesetUrl: string[] = [];
+        this.tilesetUrl = new Map();
         this.data = new Map();
     }
     render() {
@@ -23,12 +33,24 @@ let MapViewer = class MapViewer extends LitElement {
       <div id="cesiumContainer">
       </div>
       <div id="buttonContainer">
+          <h2 class="groupTitle">Layers</h2>
+          ${Array.from(this.tilesetUrl.entries()).map(([key, value]) => html `
+                      <button
+                              class="toggleButton"
+                              @click="${() => this.toggleTilesetVisibility(key)}"
+                      >
+                          ${value.icon ? html `<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
+                          ${value.description ? html `<span class="buttonDescription">${value.description}</span>` : ''}
+                      </button>
+                  `)}
+          <h2 class="groupTitle">Data</h2>
           ${Array.from(this.data.entries()).map(([key, value]) => html `
             <button
               class="toggleButton"
               @click="${() => this.toggleDataVisibility(key)}"
             >
                 ${value.icon ? html `<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
+                ${value.description ? html `<span class="buttonDescription">${value.description}</span>` : ''}
             </button>
           `)}
       </div>
@@ -41,6 +63,13 @@ let MapViewer = class MapViewer extends LitElement {
             data.dataSource.show = !data.dataSource.show;
         }
     }
+    toggleTilesetVisibility(key) {
+        const tilesetInfo = this.tilesetUrl.get(key);
+        console.log(tilesetInfo);
+        if (tilesetInfo && tilesetInfo.tileset) {
+            tilesetInfo.tileset.show = !tilesetInfo.tileset.show;
+        }
+    }
     async updated(changedProperties) {
         console.log("updated");
         if (changedProperties.has('data') && this.data.size > 0) {
@@ -50,10 +79,13 @@ let MapViewer = class MapViewer extends LitElement {
                 await zoomToDataSource(this._viewer, dataSource);
                 value.dataSource = dataSource;
             }
-            // After adding data, add tilesets
-            if (this._viewer) {
-                console.log(this.tilesetUrl);
-                addTileset(this._viewer, this.tilesetUrl);
+            if (changedProperties.has('tilesetUrl') && this.tilesetUrl.size > 0) {
+                for (const [_, value] of this.tilesetUrl.entries()) {
+                    if (this._viewer) {
+                        console.log(value);
+                        value.tileset = addTileset(this._viewer, value.url);
+                    }
+                }
             }
         }
     }
@@ -76,10 +108,10 @@ __decorate([
     property({ type: Array, attribute: 'data-tileset', converter: {
             fromAttribute: (value) => {
                 try {
-                    return JSON.parse(value);
+                    return new Map(JSON.parse(value));
                 }
                 catch {
-                    return [];
+                    return new Map();
                 }
             },
         } })

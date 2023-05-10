@@ -5,7 +5,7 @@ import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers";
 import {addData, addTileset} from './cesium/dataLoader';
 
 import {styles} from "./styles/styles";
-import {DataSource, Viewer} from "cesium";
+import {Cesium3DTileset, DataSource, Viewer} from "cesium";
 
 
 
@@ -22,16 +22,28 @@ export class MapViewer extends LitElement{
     @property({ type: String, attribute: 'data-terrain' }) // New
     dataTerrain = '';
 
-    @property({ type: Array,attribute: 'data-tileset', converter: {
+    // @property({ type: Array,attribute: 'data-tileset', converter: {
+    //         fromAttribute: (value: any) => {
+    //             try {
+    //                 return JSON.parse(value);
+    //             } catch {
+    //                 return [];
+    //             }
+    //         },
+    //     }})
+    // tilesetUrl: string[] = [];
+
+    @property({ type: Array, attribute: 'data-tileset', converter: {
             fromAttribute: (value: any) => {
                 try {
-                    return JSON.parse(value);
+                    return new Map(JSON.parse(value));
                 } catch {
-                    return [];
+                    return new Map();
                 }
             },
         }})
-    tilesetUrl: string[] = [];
+    tilesetUrl:  Map<string, { url: string; icon: string | undefined, description: string | undefined, tileset?: Cesium3DTileset  }> = new Map();
+
 
     @property({ type: Object, converter: {
             fromAttribute: (value:any) => {
@@ -42,7 +54,7 @@ export class MapViewer extends LitElement{
                 }
             },
         }})
-    data: Map<string, { url: string; contour: boolean, icon: string | undefined, dataSource:DataSource | undefined  }> = new Map();
+    data: Map<string, { url: string; contour: boolean, icon: string | undefined, description: string | undefined, dataSource:DataSource | undefined  }> = new Map();
 
     private _viewer: Viewer | undefined;
 
@@ -51,6 +63,19 @@ export class MapViewer extends LitElement{
       <div id="cesiumContainer">
       </div>
       <div id="buttonContainer">
+          <h2 class="groupTitle">Layers</h2>
+          ${Array.from(this.tilesetUrl.entries()).map(
+                  ([key, value]) => html`
+                      <button
+                              class="toggleButton"
+                              @click="${() => this.toggleTilesetVisibility(key)}"
+                      >
+                          ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
+                          ${value.description ? html`<span class="buttonDescription">${value.description}</span>` : ''}
+                      </button>
+                  `
+          )}
+          <h2 class="groupTitle">Data</h2>
           ${Array.from(this.data.entries()).map(
                   ([key, value]) => html`
             <button
@@ -58,6 +83,7 @@ export class MapViewer extends LitElement{
               @click="${() => this.toggleDataVisibility(key)}"
             >
                 ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
+                ${value.description ? html`<span class="buttonDescription">${value.description}</span>` : ''}
             </button>
           `
           )}
@@ -73,6 +99,15 @@ export class MapViewer extends LitElement{
         }
     }
 
+    toggleTilesetVisibility(key: string) {
+        const tilesetInfo = this.tilesetUrl.get(key);
+        console.log(tilesetInfo)
+        if (tilesetInfo && tilesetInfo.tileset) {
+            tilesetInfo.tileset.show = !tilesetInfo.tileset.show;
+        }
+    }
+
+
 
     override async updated(changedProperties: Map<string, unknown>) {
         console.log("updated")
@@ -84,11 +119,14 @@ export class MapViewer extends LitElement{
                     value.dataSource = dataSource;
                 }
 
-            // After adding data, add tilesets
-            if (this._viewer) {
-                console.log(this.tilesetUrl)
-                addTileset(this._viewer, this.tilesetUrl);
+        if (changedProperties.has('tilesetUrl') && this.tilesetUrl.size > 0) {
+            for (const [_, value] of this.tilesetUrl.entries()) {
+                if (this._viewer) {
+                    console.log(value)
+                    value.tileset = addTileset(this._viewer, value.url);
+                }
             }
+        }
 
         }
     }

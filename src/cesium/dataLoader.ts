@@ -3,7 +3,8 @@ import {Cesium3DTileset, Color, DataSource, Entity, GeoJsonDataSource, JulianDat
 
 export async function addData(viewer: any, data: string, contour: boolean) : Promise< DataSource | undefined> {
     try {
-        GeoJsonDataSource.clampToGround = true
+        GeoJsonDataSource.clampToGround = true;
+
         const dataSource = await GeoJsonDataSource.load(data);
         viewer.dataSources.add(dataSource);
         contour && drawContour(viewer,dataSource);
@@ -14,12 +15,10 @@ export async function addData(viewer: any, data: string, contour: boolean) : Pro
     return undefined;
 }
 
-export function addTileset(viewer: any, tilesetUrl: string[]) {
-    for (const url of tilesetUrl) {
-        console.log(url)
-        const tileset = new Cesium3DTileset({url});
-        viewer.scene.primitives.add(tileset);
-    }
+export function addTileset(viewer: any, url: string) {
+        // @ts-ignore
+    const tileset = viewer.scene.primitives.add(new Cesium3DTileset({url}));
+    return tileset;
 }
 
 export function drawContour(viewer: any, dataSource: DataSource) {
