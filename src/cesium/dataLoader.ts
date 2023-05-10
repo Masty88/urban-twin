@@ -1,4 +1,4 @@
-import {Color, ColorMaterialProperty, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
+import {Cesium3DTileset, Color, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
 
 
 export async function addData(viewer: any, data: string, contour: boolean) : Promise< DataSource | undefined> {
@@ -12,6 +12,14 @@ export async function addData(viewer: any, data: string, contour: boolean) : Pro
         console.error('Error loading data:', error);
     }
     return undefined;
+}
+
+export function addTileset(viewer: any, tilesetUrl: string[]) {
+    for (const url of tilesetUrl) {
+        console.log(url)
+        const tileset = new Cesium3DTileset({url});
+        viewer.scene.primitives.add(tileset);
+    }
 }
 
 export function drawContour(viewer: any, dataSource: DataSource) {

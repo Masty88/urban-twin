@@ -7,13 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { createCesiumViewer, zoomToDataSource } from "./cesium/cesiumHelpers";
-import { addData } from './cesium/dataLoader';
+import { addData, addTileset } from './cesium/dataLoader';
 import { styles } from "./styles/styles";
 let MapViewer = class MapViewer extends LitElement {
     constructor() {
         super(...arguments);
         this.cesiumBaseURL = '';
         this.ionToken = '';
+        this.dataTerrain = '';
+        this.tilesetUrl = [];
         this.data = new Map();
     }
     render() {
@@ -48,11 +50,16 @@ let MapViewer = class MapViewer extends LitElement {
                 await zoomToDataSource(this._viewer, dataSource);
                 value.dataSource = dataSource;
             }
+            // After adding data, add tilesets
+            if (this._viewer) {
+                console.log(this.tilesetUrl);
+                addTileset(this._viewer, this.tilesetUrl);
+            }
         }
     }
     async firstUpdated() {
         super.connectedCallback();
-        this._viewer = createCesiumViewer(this.shadowRoot.getElementById("cesiumContainer"), this.cesiumBaseURL);
+        this._viewer = createCesiumViewer(this.shadowRoot.getElementById("cesiumContainer"), this.cesiumBaseURL, this.dataTerrain);
     }
 };
 MapViewer.styles = styles;
@@ -62,6 +69,21 @@ __decorate([
 __decorate([
     property({ type: String, attribute: 'ion-token' })
 ], MapViewer.prototype, "ionToken", void 0);
+__decorate([
+    property({ type: String, attribute: 'data-terrain' }) // New
+], MapViewer.prototype, "dataTerrain", void 0);
+__decorate([
+    property({ type: Array, attribute: 'data-tileset', converter: {
+            fromAttribute: (value) => {
+                try {
+                    return JSON.parse(value);
+                }
+                catch {
+                    return [];
+                }
+            },
+        } })
+], MapViewer.prototype, "tilesetUrl", void 0);
 __decorate([
     property({ type: Object, converter: {
             fromAttribute: (value) => {

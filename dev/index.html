@@ -10,11 +10,17 @@
 
 <map-viewer
         cesium-base-url="/static/"
+
         data='[
         ["boundary", { "url": "/static/Data/boudry.json", "contour": true, "icon": "/static/icons/map-line.svg"}],
         ["zone", { "url": "/static/Data/zone_boudry.geojson", "contour": false}],
         ["solar", { "url": "/static/Data/solar.geojson", "contour": false, "icon": "/static/icons/solar-power.svg"}]
         ]'
+
+        data-terrain =  "//3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20200520/4326/"
+
+        data-tileset='["https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.swisstlm3d.3d/20190313/tileset.json",
+        "https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.vegetation.3d/20190313/tileset.json"]'
 ></map-viewer>
 
 <script type="module" src="../map-viewer.js"></script>

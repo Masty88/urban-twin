@@ -4,6 +4,8 @@ export declare class MapViewer extends LitElement {
     static styles: import("lit").CSSResult;
     cesiumBaseURL: string;
     ionToken: string;
+    dataTerrain: string;
+    tilesetUrl: string[];
     data: Map<string, {
         url: string;
         contour: boolean;

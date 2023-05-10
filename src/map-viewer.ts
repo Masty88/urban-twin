@@ -2,7 +2,7 @@ import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers";
-import {addData, drawContour} from './cesium/dataLoader';
+import {addData, addTileset} from './cesium/dataLoader';
 
 import {styles} from "./styles/styles";
 import {DataSource, Viewer} from "cesium";
@@ -18,6 +18,20 @@ export class MapViewer extends LitElement{
 
     @property({ type: String, attribute: 'ion-token' })
     ionToken = '';
+
+    @property({ type: String, attribute: 'data-terrain' }) // New
+    dataTerrain = '';
+
+    @property({ type: Array,attribute: 'data-tileset', converter: {
+            fromAttribute: (value: any) => {
+                try {
+                    return JSON.parse(value);
+                } catch {
+                    return [];
+                }
+            },
+        }})
+    tilesetUrl: string[] = [];
 
     @property({ type: Object, converter: {
             fromAttribute: (value:any) => {
@@ -70,6 +84,12 @@ export class MapViewer extends LitElement{
                     value.dataSource = dataSource;
                 }
 
+            // After adding data, add tilesets
+            if (this._viewer) {
+                console.log(this.tilesetUrl)
+                addTileset(this._viewer, this.tilesetUrl);
+            }
+
         }
     }
 
@@ -77,7 +97,8 @@ export class MapViewer extends LitElement{
         super.connectedCallback();
         this._viewer = createCesiumViewer(
             this.shadowRoot!.getElementById("cesiumContainer")!,
-            this.cesiumBaseURL
+            this.cesiumBaseURL,
+            this.dataTerrain,
         );
     }
 
