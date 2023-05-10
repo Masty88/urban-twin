@@ -25,7 +25,7 @@ export const styles = css `
     width: 80%;
     height: 50px;
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
   }
   
@@ -33,7 +33,7 @@ export const styles = css `
     font-size: 13px;
     color:  #cbc118 ;
     user-select: none;
-    margin-left: 10px;
+    margin-left: 20px;
   }
   
   .groupTitle{
@@ -43,6 +43,14 @@ export const styles = css `
     color:  #cbc118 ;
     user-select: none;
   }
+  
+  .buttonContent {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  
+
 
   :host {
     display: block;

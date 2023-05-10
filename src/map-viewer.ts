@@ -70,8 +70,10 @@ export class MapViewer extends LitElement{
                               class="toggleButton"
                               @click="${() => this.toggleTilesetVisibility(key)}"
                       >
+                          <div class="buttonContent">
                           ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
                           ${value.description ? html`<span class="buttonDescription">${value.description}</span>` : ''}
+                          </div>    
                       </button>
                   `
           )}
@@ -82,8 +84,10 @@ export class MapViewer extends LitElement{
               class="toggleButton"
               @click="${() => this.toggleDataVisibility(key)}"
             >
+                <div class="buttonContent">
                 ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
                 ${value.description ? html`<span class="buttonDescription">${value.description}</span>` : ''}
+                </div>
             </button>
           `
           )}
