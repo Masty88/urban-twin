@@ -7,6 +7,7 @@ import {addData, addTileset} from './cesium/dataLoader';
 import {styles} from "./styles/styles";
 import {Cesium3DTileset, DataSource, Viewer} from "cesium";
 
+import apiService from "./api/apiService";
 
 
 @customElement('map-viewer')
@@ -21,17 +22,6 @@ export class MapViewer extends LitElement{
 
     @property({ type: String, attribute: 'data-terrain' }) // New
     dataTerrain = '';
-
-    // @property({ type: Array,attribute: 'data-tileset', converter: {
-    //         fromAttribute: (value: any) => {
-    //             try {
-    //                 return JSON.parse(value);
-    //             } catch {
-    //                 return [];
-    //             }
-    //         },
-    //     }})
-    // tilesetUrl: string[] = [];
 
     @property({ type: Array, attribute: 'data-tileset', converter: {
             fromAttribute: (value: any) => {
@@ -142,6 +132,9 @@ export class MapViewer extends LitElement{
             this.cesiumBaseURL,
             this.dataTerrain,
         );
+
+        const apiData = await apiService.getData("area");
+        console.log(apiData)
     }
 
 }

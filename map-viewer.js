@@ -9,22 +9,13 @@ import { customElement, property } from 'lit/decorators.js';
 import { createCesiumViewer, zoomToDataSource } from "./cesium/cesiumHelpers";
 import { addData, addTileset } from './cesium/dataLoader';
 import { styles } from "./styles/styles";
+import apiService from "./api/apiService";
 let MapViewer = class MapViewer extends LitElement {
     constructor() {
         super(...arguments);
         this.cesiumBaseURL = '';
         this.ionToken = '';
         this.dataTerrain = '';
-        // @property({ type: Array,attribute: 'data-tileset', converter: {
-        //         fromAttribute: (value: any) => {
-        //             try {
-        //                 return JSON.parse(value);
-        //             } catch {
-        //                 return [];
-        //             }
-        //         },
-        //     }})
-        // tilesetUrl: string[] = [];
         this.tilesetUrl = new Map();
         this.data = new Map();
     }
@@ -96,6 +87,8 @@ let MapViewer = class MapViewer extends LitElement {
     async firstUpdated() {
         super.connectedCallback();
         this._viewer = createCesiumViewer(this.shadowRoot.getElementById("cesiumContainer"), this.cesiumBaseURL, this.dataTerrain);
+        const apiData = await apiService.getData("area");
+        console.log(apiData);
     }
 };
 MapViewer.styles = styles;
