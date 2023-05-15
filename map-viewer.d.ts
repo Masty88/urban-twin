@@ -1,30 +1,34 @@
 import { LitElement } from 'lit';
-import { Cesium3DTileset, DataSource } from "cesium";
+import './components/data-container';
+import './components/layer-container';
+import './components/button-container';
+import { Cesium3DTileset, DataSource } from 'cesium';
 export declare class MapViewer extends LitElement {
     static styles: import("lit").CSSResult;
     cesiumBaseURL: string;
     ionToken: string;
     dataTerrain: string;
-    tilesetUrl: Map<string, {
+    tilesetUrl: Array<{
+        key: string;
         url: string;
-        icon: string | undefined;
-        description: string | undefined;
+        icon?: string;
+        description?: string;
         tileset?: Cesium3DTileset;
     }>;
-    data: Map<string, {
+    data: Array<{
+        key: string;
         url: string;
         contour: boolean;
-        icon: string | undefined;
-        description: string | undefined;
-        dataSource: DataSource | undefined;
+        icon?: string;
+        description?: string;
+        dataSource?: DataSource;
     }>;
     private _viewer;
-    constructor();
     render(): import("lit-html").TemplateResult<1>;
-    toggleDataVisibility(key: string): void;
-    toggleTilesetVisibility(key: string): void;
     updated(changedProperties: Map<string, unknown>): Promise<void>;
     firstUpdated(): Promise<void>;
+    toggleDataVisibility(event: CustomEvent): void;
+    toggleTilesetVisibility(event: CustomEvent): void;
 }
 declare global {
     interface HTMLElementTagNameMap {
