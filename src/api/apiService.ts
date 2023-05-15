@@ -4,7 +4,7 @@ class ApiService {
     private baseURL: string;
 
     constructor() {
-        // Imposta l'URL di base per le tue chiamate API
+        // Set base URL
         this.baseURL = 'http://localhost:8000/';
     }
 
@@ -13,7 +13,7 @@ class ApiService {
             const response = await axios.get(`${this.baseURL}/${endpoint}`);
             return response.data;
         } catch (error) {
-            // Gestisci gli errori delle chiamate API
+            // Manage error
             console.error('Errore nella richiesta GET:', error);
             throw error;
         }
@@ -24,7 +24,7 @@ class ApiService {
             const response = await axios.post(`${this.baseURL}/${endpoint}`, data);
             return response.data;
         } catch (error) {
-            // Gestisci gli errori delle chiamate API
+            // Manage Post error
             console.error('Errore nella richiesta POST:', error);
             throw error;
         }
@@ -32,7 +32,6 @@ class ApiService {
 
 }
 
-// Crea un'istanza del servizio API per l'utilizzo nell'applicazione
 const apiService = new ApiService();
 
 export default apiService;

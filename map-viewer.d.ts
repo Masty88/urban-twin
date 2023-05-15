@@ -19,6 +19,7 @@ export declare class MapViewer extends LitElement {
         dataSource: DataSource | undefined;
     }>;
     private _viewer;
+    constructor();
     render(): import("lit-html").TemplateResult<1>;
     toggleDataVisibility(key: string): void;
     toggleTilesetVisibility(key: string): void;

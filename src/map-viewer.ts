@@ -7,6 +7,8 @@ import {addData, addTileset} from './cesium/dataLoader';
 import {styles} from "./styles/styles";
 import {Cesium3DTileset, DataSource, Viewer} from "cesium";
 
+import apiService from './api/apiService';
+
 
 
 @customElement('map-viewer')
@@ -22,17 +24,6 @@ export class MapViewer extends LitElement{
     @property({ type: String, attribute: 'data-terrain' }) // New
     dataTerrain = '';
 
-    // @property({ type: Array,attribute: 'data-tileset', converter: {
-    //         fromAttribute: (value: any) => {
-    //             try {
-    //                 return JSON.parse(value);
-    //             } catch {
-    //                 return [];
-    //             }
-    //         },
-    //     }})
-    // tilesetUrl: string[] = [];
-
     @property({ type: Array, attribute: 'data-tileset', converter: {
             fromAttribute: (value: any) => {
                 try {
@@ -43,6 +34,7 @@ export class MapViewer extends LitElement{
             },
         }})
     tilesetUrl:  Map<string, { url: string; icon: string | undefined, description: string | undefined, tileset?: Cesium3DTileset  }> = new Map();
+
 
 
     @property({ type: Object, converter: {
@@ -57,6 +49,10 @@ export class MapViewer extends LitElement{
     data: Map<string, { url: string; contour: boolean, icon: string | undefined, description: string | undefined, dataSource:DataSource | undefined  }> = new Map();
 
     private _viewer: Viewer | undefined;
+
+    constructor() {
+        super();
+    }
 
     override render() {
         return html`
@@ -131,6 +127,9 @@ export class MapViewer extends LitElement{
                 }
             }
         }
+
+        const apiData = await apiService.getData("area");
+        console.log(apiData)
 
         }
     }
