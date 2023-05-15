@@ -8,9 +8,14 @@ class ApiService {
         this.baseURL = 'http://localhost:8000/';
     }
 
-    async getData(endpoint: string) {
+    async getData(endpoint: string, optionalParam?: string) {
         try {
-            const response = await axios.get(`${this.baseURL}/${endpoint}`);
+            let url = `${this.baseURL}/${endpoint}`;
+            if (optionalParam) {
+                url += `/${optionalParam}`;
+            }
+
+            const response = await axios.get(url);
             return response.data;
         } catch (error) {
             // Gestisci gli errori delle chiamate API
