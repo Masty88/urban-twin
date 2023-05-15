@@ -32,6 +32,7 @@
     "prettier": "^2.8.6"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "boxicons": "^2.1.4",
     "cesium": "^1.104.0",
     "lit": "^2.7.0"
