@@ -1,7 +1,9 @@
 import { LitElement } from 'lit';
+import './composants/DataLoader.js';
 import { Cesium3DTileset, DataSource } from "cesium";
 export declare class MapViewer extends LitElement {
     static styles: import("lit").CSSResult;
+    loading: boolean;
     cesiumBaseURL: string;
     ionToken: string;
     dataTerrain: string;
@@ -18,12 +20,14 @@ export declare class MapViewer extends LitElement {
         description: string | undefined;
         dataSource: DataSource | undefined;
     }>;
+    forestCover: string;
     private _viewer;
+    constructor();
     render(): import("lit-html").TemplateResult<1>;
     toggleDataVisibility(key: string): void;
     toggleTilesetVisibility(key: string): void;
     updated(changedProperties: Map<string, unknown>): Promise<void>;
-    firstUpdated(): Promise<void>;
+    firstUpdated(_changedProperties: Map<string, unknown>): Promise<void>;
 }
 declare global {
     interface HTMLElementTagNameMap {

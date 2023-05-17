@@ -1,5 +1,100 @@
 import { css } from 'lit';
 export const styles = css `
+
+  @keyframes progress {
+    0% {
+      stroke-dasharray: 0 100;
+    }
+  }
+
+  .circle-animate {
+    animation: progress 2s linear forwards;
+  }
+
+  #loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #3a3a3a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;  // To make sure it appears on top of everything else
+  }
+  
+  #dataContainer{
+    position: absolute;
+    width: 20%;
+    max-width: 200px;
+    min-width: 100px;
+    top: 5%;
+    right: 2%;
+    height: auto;
+    background-color: #3a3a3a;
+    border-radius: 20px;
+    color: #cbc118;
+    font-family: "Arial MT Black";
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    //flex-flow: row nowrap;
+  }
+  
+  .dataSurface{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+
+  .single-chart {
+    width: 60%;
+    justify-content: space-around;
+  }
+  
+  .dataTitle{
+    margin: 0;
+    font-size: 0.9em;
+    color: #cbc118;
+    padding: 8px 12px;
+  }
+
+  .circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+    max-height: 250px;
+  }
+
+  .circle-bg {
+    fill: none;
+    stroke: #4b0082;
+    stroke-width: 3.8;
+  }
+
+  .circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+  }
+
+  .circular-chart.green .circle {
+    stroke: #cbc118;
+  }
+
+  .percentage {
+    fill: #cbc118;
+    font-family: "Arial MT Black";
+    font-size: 0.4em;
+    text-anchor: middle;
+  }
+  
   #buttonContainer {
     position: absolute;
     width: 20%;
