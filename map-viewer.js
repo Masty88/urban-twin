@@ -31,28 +31,30 @@ let MapViewer = class MapViewer extends LitElement {
       <div id="cesiumContainer">
       </div>
       
-      <div id="dataContainer">
-          <p class="dataTitle">Total forest coverage</p>
-          <div class="dataSurface">
-              <div class="single-chart">
-                  <svg viewBox="0 0 36 36" class="circular-chart green">
-                      <path class="circle-bg"
-                            d="M18 2.0845
+      <div id="legendContainer">
+          <div id="dataContainer">
+              <p class="dataTitle">Total forest coverage</p>
+              <div class="dataSurface">
+                  <div class="single-chart">
+                      <svg viewBox="0 0 36 36" class="circular-chart green">
+                          <path class="circle-bg"
+                                d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <path class="circle ${this.loading ? '' : 'circle-animate'}"
-                            stroke-dasharray="64.4, 100"
-                            :style="circleStyle"
-                            d="M18 2.0845
+                          />
+                          <path class="circle ${this.loading ? '' : 'circle-animate'}"
+                                stroke-dasharray="64.4, 100"
+                                :style="circleStyle"
+                                d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <text x="18" y="20.35" class="percentage">${this.forestCover}</text>
-                  </svg>
+                          />
+                          <text x="18" y="20.35" class="percentage">${this.forestCover}</text>
+                      </svg>
+                  </div>
               </div>
+              <p class="dataTitle">${this.areaForestCover} km2</p>
           </div>
-          <p class="dataTitle">${this.areaForestCover} km2</p>
       </div>
       
       <div id="buttonContainer">
@@ -93,7 +95,7 @@ let MapViewer = class MapViewer extends LitElement {
                 const legend = this.shadowRoot.querySelector('#legend');
                 if (legend) {
                     // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
-                    legend.style.display = data.dataSource.show ? 'block' : 'none';
+                    legend.style.display = data.dataSource.show ? 'flex' : 'none';
                 }
             }
         }
@@ -110,7 +112,7 @@ let MapViewer = class MapViewer extends LitElement {
         const legendElement = document.createElement('div');
         legendElement.id = 'legend';
         if (this.shadowRoot) {
-            this.shadowRoot.appendChild(legendElement); // Append to shadowRoot instead of document.body
+            this.shadowRoot.querySelector("#legendContainer").appendChild(legendElement); // Append to shadowRoot instead of document.body
         }
         // Populate the legend with color-information
         legend.forEach((color, property) => {

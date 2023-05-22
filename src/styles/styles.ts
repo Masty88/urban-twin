@@ -26,11 +26,21 @@ export const styles = css`
     z-index: 9999;  // To make sure it appears on top of everything else
   }
   
+  #legendContainer{
+    position: absolute;
+    width: 20%;
+    max-width: 200px;
+    min-width: 100px;
+    top: 5%;
+    right: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
   #legend{
-      position: absolute;
-      width: 20%;
-      max-width: 200px;
-      min-width: 100px;
+      width: 100%;
       top: 35%;
       right: 2%;
       height: auto;
@@ -49,7 +59,7 @@ export const styles = css`
   }
   
   .legend-value{
-    font-size: 0.39em;
+    font-size: 0.5em;
     font-family: "Arial MT Black";
     margin-left: 10px;
   }
@@ -57,17 +67,14 @@ export const styles = css`
   .legend-container{
     display: flex;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
     width: 100%;
   }
   
   #dataContainer{
-    position: absolute;
-    width: 20%;
+    width: 100%;
     max-width: 200px;
     min-width: 100px;
-    top: 5%;
-    right: 2%;
     height: auto;
     background-color: #3a3a3a;
     border-radius: 20px;
@@ -78,6 +85,7 @@ export const styles = css`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 20px;
     //flex-flow: row nowrap;
   }
   
