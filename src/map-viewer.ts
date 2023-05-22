@@ -11,6 +11,8 @@ import {Cesium3DTileset, DataSource, Viewer} from "cesium";
 
 import apiService from "./api/apiService";
 
+import {legend} from "./cesium/dataLoader";
+
 
 @customElement('map-viewer')
 export class MapViewer extends LitElement{
@@ -49,14 +51,18 @@ export class MapViewer extends LitElement{
                 }
             },
         }})
-    data: Map<string, { url: string; contour: boolean, icon: string | undefined, description: string | undefined, dataSource:DataSource | undefined  }> = new Map();
+    data: Map<string, { url: string; contour: boolean, icon: string | undefined, description: string | undefined, dataSource:DataSource | undefined, colorize: string | undefined   }> = new Map();
 
     @property({type: String}) forestCover = "";
+    @property({type: String}) areaForestCover = "";
+
+
 
     private _viewer: Viewer | undefined;
 
     constructor() {
         super();
+        this.attachShadow({ mode: 'open' });
     }
 
     override render() {
@@ -86,6 +92,7 @@ export class MapViewer extends LitElement{
                   </svg>
               </div>
           </div>
+          <p class="dataTitle">${this.areaForestCover} km2</p>
       </div>
       
       <div id="buttonContainer">
@@ -122,11 +129,19 @@ export class MapViewer extends LitElement{
     `;
     }
 
+
     toggleDataVisibility(key: string) {
         const data  = this.data.get(key);
         console.log("key is " + key)
         if (data && data.dataSource) {
             data.dataSource.show = !data.dataSource.show;
+            if (key === 'zone') {
+                const legend = this.shadowRoot.querySelector('#legend');
+                if(legend){
+                    // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
+                    legend.style.display = data.dataSource.show ? 'block' : 'none';
+                }
+            }
         }
     }
 
@@ -138,16 +153,48 @@ export class MapViewer extends LitElement{
         }
     }
 
+    createLegend() {
+        // Create a legend element
+        const legendElement = document.createElement('div');
+        legendElement.id = 'legend';
+
+        if(this.shadowRoot){
+            this.shadowRoot.appendChild(legendElement);  // Append to shadowRoot instead of document.body
+        }
+        // Populate the legend with color-information
+        legend.forEach((color, property) => {
+            const item = document.createElement('div');
+            item.className = "legend-container"
+
+            const key = document.createElement('div');
+            key.className = 'legend-key';
+            key.style.backgroundColor = color.toCssColorString();
+            key.style.display = 'inline-block';
+            key.style.width = '20px';
+            key.style.height = '20px';
+
+            const value = document.createElement('p');
+            value.className = "legend-value"
+            value.innerHTML = property;
+
+            item.appendChild(key);
+            item.appendChild(value);
+            legendElement.appendChild(item);
+        });
+    }
 
 
     override async updated(changedProperties: Map<string, unknown>) {
         if (changedProperties.has('data') && this.data.size > 0) {
             const dataPromises = Array.from(this.data.entries()).map(async ([_, value]) => {
-                const dataSource = await addData(this._viewer, value.url, value.contour);
+                const dataSource = await addData(this._viewer, value.url, value.contour, value.colorize);
                 await zoomToDataSource(this._viewer, dataSource);
                 value.dataSource = dataSource;
+                // Create the legend
             });
+
             await Promise.all(dataPromises);
+            this.createLegend();
             this.loading = false;
         }
 
@@ -171,8 +218,7 @@ export class MapViewer extends LitElement{
         );
 
         this.forestCover = await apiService.getData("percentage", 'forest');
-        // console.log(this.forestPercentage)
-        // this.requestUpdate();
+        this.areaForestCover = await apiService.getData("area", 'forest');
     }
 
 }

@@ -26,6 +26,41 @@ export const styles = css`
     z-index: 9999;  // To make sure it appears on top of everything else
   }
   
+  #legend{
+      position: absolute;
+      width: 20%;
+      max-width: 200px;
+      min-width: 100px;
+      top: 35%;
+      right: 2%;
+      height: auto;
+      background-color: #3a3a3a;
+      border-radius: 20px;
+      color: #cbc118;
+      font-family: "Arial MT Black";
+      text-align: left;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px;
+      //flex-flow: row nowrap;
+  }
+  
+  .legend-value{
+    font-size: 0.39em;
+    font-family: "Arial MT Black";
+    margin-left: 10px;
+  }
+  
+  .legend-container{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    width: 100%;
+  }
+  
   #dataContainer{
     position: absolute;
     width: 20%;
@@ -1089,7 +1124,7 @@ export const styles = css`
   .cesium-infoBox {
     display: block;
     position: absolute;
-    top: 50px;
+    top: 60%;
     right: 0;
     width: 40%;
     max-width: 480px;
@@ -1144,6 +1179,7 @@ export const styles = css`
     border-radius: 3px;
     padding: 0 5px;
     margin: 0;
+    display: none;
   }
 
   button.cesium-infoBox-close {

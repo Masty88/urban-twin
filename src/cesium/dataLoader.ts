@@ -1,14 +1,56 @@
-import {Cesium3DTileset, Color, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
+import {Cesium3DTileset, Color, ColorMaterialProperty, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
 
 
-export async function addData(viewer: any, data: string, contour: boolean) : Promise< DataSource | undefined> {
+// Créez une Map pour stocker les associations couleur/valeur
+const colorizeMap = new Map();
+const legend = new Map<string, Color>();
+
+function hashStringToColor(str: string): Color {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const c = (hash & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+    return Color.fromCssColorString("#" + "00000".substring(0, 6 - c.length) + c);
+}
+
+export async function addData(viewer: any, data: string, contour: boolean, colorize: string | undefined) : Promise< DataSource | undefined> {
     try {
         GeoJsonDataSource.clampToGround = true;
 
-        const dataSource = await GeoJsonDataSource.load(data);
+        const dataSource = await GeoJsonDataSource.load(data, {
+            // Aggiunge una funzione per personalizzare l'aspetto delle entità
+            clampToGround: true,
+        });
+
+        // Itera su tutte le entità del DataSource
+        dataSource.entities.values.forEach((entity: Entity) => {
+            // Se l'entità ha una proprietà "zone", usa il colore corrispondente dalla funzione di hash
+            // @ts-ignore
+            if (entity.properties && entity.properties[colorize]) {
+                // @ts-ignore
+                const zone = entity.properties[colorize].getValue();
+                let color = colorizeMap.get(zone);
+
+                if (!color) {
+                    color = hashStringToColor(zone);  // use the same color generation function
+                    colorizeMap.set(zone, color);
+                }
+
+                // Also store the color/value association in the legend
+                legend.set(zone, color);
+
+                if (zone && entity.polygon) {
+                    entity.polygon.material = new ColorMaterialProperty(color);
+                }
+            }
+        });
+
         viewer.dataSources.add(dataSource);
-        contour && drawContour(viewer,dataSource);
-        return dataSource
+        contour && drawContour(viewer, dataSource);
+        return dataSource;
     } catch (error) {
         console.error('Error loading data:', error);
     }
@@ -40,3 +82,5 @@ export function drawContour(viewer: any, dataSource: DataSource) {
         }
     });
 }
+
+export { legend };

@@ -19,13 +19,16 @@ export declare class MapViewer extends LitElement {
         icon: string | undefined;
         description: string | undefined;
         dataSource: DataSource | undefined;
+        colorize: string | undefined;
     }>;
     forestCover: string;
+    areaForestCover: string;
     private _viewer;
     constructor();
     render(): import("lit-html").TemplateResult<1>;
     toggleDataVisibility(key: string): void;
     toggleTilesetVisibility(key: string): void;
+    createLegend(): void;
     updated(changedProperties: Map<string, unknown>): Promise<void>;
     firstUpdated(_changedProperties: Map<string, unknown>): Promise<void>;
 }

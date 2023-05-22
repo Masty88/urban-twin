@@ -36,6 +36,7 @@ export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string
         terrainProvider: terrainProvider,
     });
 
+
     //viewer.scene.primitives.add(createOsmBuildings());
     viewer.scene.globe.depthTestAgainstTerrain = false;
     console.log("viewer created")
