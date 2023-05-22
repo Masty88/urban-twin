@@ -89,20 +89,22 @@ let MapViewer = class MapViewer extends LitElement {
     toggleDataVisibility(key) {
         const data = this.data.get(key);
         console.log("key is " + key);
-        if (data && data.dataSource) {
-            data.dataSource.show = !data.dataSource.show;
-            if (key === 'zone') {
-                const legend = this.shadowRoot.querySelector('#legend');
-                if (legend) {
-                    // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
-                    legend.style.display = data.dataSource.show ? 'flex' : 'none';
+        if (data) {
+            if (data.dataSource) {
+                data.dataSource.show = !data.dataSource.show;
+                if (key === 'zone' && this.shadowRoot) {
+                    const legend = this.shadowRoot.querySelector('#legend');
+                    if (legend) {
+                        // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
+                        legend.style.display = data.dataSource.show ? 'flex' : 'none';
+                    }
                 }
-            }
-            if (key === 'forest') {
-                const forestApi = this.shadowRoot.querySelector('#dataContainer');
-                if (legend) {
-                    // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
-                    forestApi.style.display = data.dataSource.show ? 'flex' : 'none';
+                if (key === 'forest' && this.shadowRoot) {
+                    const forestApi = this.shadowRoot.querySelector('#dataContainer');
+                    if (forestApi) {
+                        // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
+                        forestApi.style.display = data.dataSource.show ? 'flex' : 'none';
+                    }
                 }
             }
         }

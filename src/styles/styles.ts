@@ -81,7 +81,7 @@ export const styles = css`
     color: #cbc118;
     font-family: "Arial MT Black";
     text-align: center;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;

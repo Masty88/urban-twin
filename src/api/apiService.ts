@@ -16,6 +16,7 @@ class ApiService {
             }
 
             const response = await axios.get(url);
+            console.log("res", response)
             return response.data;
         } catch (error) {
             // Gestisci gli errori delle chiamate API

@@ -44,7 +44,6 @@ export async function addData(viewer: any, data: string, contour: boolean, color
 
                 if (zone && entity.polygon) {
                     entity.polygon.material = new ColorMaterialProperty(color);
-                    entity.polygon.depthTest = false; // Imposta depthTest su false per rendere l'oggetto visibile sopra gli altri oggetti
                 }
             }
         });
