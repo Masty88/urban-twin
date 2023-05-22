@@ -144,6 +144,13 @@ export class MapViewer extends LitElement{
                     legend.style.display = data.dataSource.show ? 'flex' : 'none';
                 }
             }
+            if (key === 'forest') {
+                const forestApi = this.shadowRoot.querySelector('#dataContainer');
+                if(legend){
+                    // Se la dataSource è visibile, mostra la legenda, altrimenti nascondila
+                    forestApi.style.display = data.dataSource.show ? 'flex' : 'none';
+                }
+            }
         }
     }
 
@@ -159,8 +166,10 @@ export class MapViewer extends LitElement{
         // Create a legend element
         const legendElement = document.createElement('div');
         legendElement.id = 'legend';
+        legendElement.style.display = "none"
 
         if(this.shadowRoot){
+            // @ts-ignore
             this.shadowRoot.querySelector("#legendContainer").appendChild(legendElement);  // Append to shadowRoot instead of document.body
         }
         // Populate the legend with color-information

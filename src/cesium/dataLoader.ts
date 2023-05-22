@@ -44,11 +44,13 @@ export async function addData(viewer: any, data: string, contour: boolean, color
 
                 if (zone && entity.polygon) {
                     entity.polygon.material = new ColorMaterialProperty(color);
+                    entity.polygon.depthTest = false; // Imposta depthTest su false per rendere l'oggetto visibile sopra gli altri oggetti
                 }
             }
         });
 
         viewer.dataSources.add(dataSource);
+        dataSource.show = false;
         contour && drawContour(viewer, dataSource);
         return dataSource;
     } catch (error) {
@@ -76,7 +78,7 @@ export function drawContour(viewer: any, dataSource: DataSource) {
                     width: 3,
                     material: Color.YELLOW.withAlpha(0.5),
                     clampToGround: true,
-                    show: dataSource.show,
+                    show: true,
                 },
             });
         }

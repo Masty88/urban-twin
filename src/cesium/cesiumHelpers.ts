@@ -38,7 +38,7 @@ export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string
 
 
     //viewer.scene.primitives.add(createOsmBuildings());
-    viewer.scene.globe.depthTestAgainstTerrain = false;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
     console.log("viewer created")
     return viewer;
 }
