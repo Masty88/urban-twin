@@ -13,14 +13,15 @@
 
         data='[
         ["boundary", { "url": "/static/Data/boudry.json", "contour": true, "icon": "/static/icons/map-line.svg", "description": "City Boundary"}],
-        ["zone", { "url": "/static/Data/zone_boudry_mod.geojson", "contour": false, "icon": "/static/icons/zone.svg","description": "Zones", "colorize": "Zone"}],
+        ["zone", { "url": "/static/Data/zone_boudry.geojson", "contour": false, "icon": "/static/icons/zone.svg","description": "Zones", "colorize": "Zone"}],
         ["solar", { "url": "/static/Data/solar.geojson", "contour": false, "icon": "/static/icons/solar-power.svg","description": "Solar Power"}],
         ["forest", { "url": "/static/Data/forest_boudry.geojson", "contour": false, "icon": "/static/icons/tree.svg","description": "Tree zones"}]
         ]'
-        data-terrain =  "//3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20200520/4326/"
+
+        data-terrain =  "https://cors-anywhere.herokuapp.com///3d.geo.admin.ch/1.0.0/ch.swisstopo.terrain.3d/default/20200520/4326/"
         data-tileset='[
         ["buildings", { "url": "https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.swisstlm3d.3d/20190313/tileset.json", "icon": "/static/icons/building.svg", "description": "Buildings" }],
-        ["tree", { "url": "https://vectortiles2.geo.admin.ch/3d-tiles/ch.swisstopo.vegetation.3d/20190313/tileset.json", "icon": "/static/icons/tree.svg", "description": "Tree" }]
+        ["tree", { "url": "https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.vegetation.3d/20190313/tileset.json", "icon": "/static/icons/tree.svg", "description": "Tree" }]
         ]'
 
 ></map-viewer>

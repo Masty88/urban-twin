@@ -2,6 +2,7 @@ import {LitElement, html} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import './composants/DataLoader.js';
+import './composants/toggle-data.js'
 
 import {createCesiumViewer, zoomToDataSource} from "./cesium/cesiumHelpers";
 import {addData, addTileset} from './cesium/dataLoader';
@@ -98,6 +99,7 @@ export class MapViewer extends LitElement{
       </div>
       
       <div id="buttonContainer">
+          
           <h2 class="groupTitle">Layers</h2>
           ${Array.from(this.tilesetUrl.entries()).map(
                   ([key, value]) => html`
@@ -116,17 +118,14 @@ export class MapViewer extends LitElement{
           <h2 class="groupTitle">Data</h2>
           ${Array.from(this.data.entries()).map(
                   ([key, value]) => html`
-              <button
-              class="toggleButton"
-              @click="${() => this.toggleDataVisibility(key)}"
-            >
-                <div class="buttonContent">
-                ${value.icon ? html`<img class="icon" src="${value.icon}" alt="Icon for ${key}" width="25" height="25">` : ''}
-                ${value.description ? html`<span class="buttonDescription">${value.description}</span>` : ''}
-                </div>
-            </button>
+                      <toggle-data
+                              .key=${key}
+                              .value=${value}
+                              .clickFunction=${() => this.toggleDataVisibility(key)}
+                      ></toggle-data>
           `
           )}
+          
       </div>
     `;
     }

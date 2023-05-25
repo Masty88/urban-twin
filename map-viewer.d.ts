@@ -1,5 +1,6 @@
 import { LitElement } from 'lit';
 import './composants/DataLoader.js';
+import './composants/toggle-data.js';
 import { Cesium3DTileset, DataSource } from "cesium";
 export declare class MapViewer extends LitElement {
     static styles: import("lit").CSSResult;

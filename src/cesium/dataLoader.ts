@@ -41,6 +41,8 @@ export async function addData(viewer: any, data: string, contour: boolean, color
 
                 // Also store the color/value association in the legend
                 legend.set(zone, color);
+                console.log(legend)
+                console.log(colorizeMap)
 
                 if (zone && entity.polygon) {
                     entity.polygon.material = new ColorMaterialProperty(color);
