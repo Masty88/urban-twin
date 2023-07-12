@@ -7,7 +7,6 @@ export declare class MapViewer extends LitElement {
     loading: boolean;
     cesiumBaseURL: string;
     ionToken: string;
-    dataTerrain: string;
     tilesetUrl: Map<string, {
         url: string;
         icon: string | undefined;
@@ -24,6 +23,8 @@ export declare class MapViewer extends LitElement {
     }>;
     forestCover: string;
     areaForestCover: string;
+    currentTreeCount: number;
+    urbanTree: string;
     private _viewer;
     constructor();
     render(): import("lit-html").TemplateResult<1>;
@@ -32,6 +33,7 @@ export declare class MapViewer extends LitElement {
     createLegend(): void;
     updated(changedProperties: Map<string, unknown>): Promise<void>;
     firstUpdated(_changedProperties: Map<string, unknown>): Promise<void>;
+    animateCounters(): void;
 }
 declare global {
     interface HTMLElementTagNameMap {

@@ -1,4 +1,13 @@
-import {Cesium3DTileset, Color, ColorMaterialProperty, DataSource, Entity, GeoJsonDataSource, JulianDate} from "cesium";
+import {
+    Cesium3DTileset,
+    Color,
+    ColorMaterialProperty,
+    DataSource,
+    Entity,
+    GeoJsonDataSource,
+    JulianDate,
+    PointGraphics
+} from "cesium";
 
 
 // Créez une Map pour stocker les associations couleur/valeur
@@ -28,7 +37,13 @@ export async function addData(viewer: any, data: string, contour: boolean, color
         // Itera su tutte le entità del DataSource
         dataSource.entities.values.forEach((entity: Entity) => {
             // Se l'entità ha una proprietà "zone", usa il colore corrispondente dalla funzione di hash
-            // @ts-ignore
+
+            entity.billboard = undefined;
+            entity.point = new PointGraphics({
+                color: Color.GREEN,
+                pixelSize: 15
+            });
+            entity.label = undefined;
             if (entity.properties && entity.properties[colorize]) {
                 // @ts-ignore
                 const zone = entity.properties[colorize].getValue();
@@ -41,8 +56,6 @@ export async function addData(viewer: any, data: string, contour: boolean, color
 
                 // Also store the color/value association in the legend
                 legend.set(zone, color);
-                console.log(legend)
-                console.log(colorizeMap)
 
                 if (zone && entity.polygon) {
                     entity.polygon.material = new ColorMaterialProperty(color);

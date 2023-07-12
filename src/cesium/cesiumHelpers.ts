@@ -3,8 +3,9 @@ import {
     DataSource,
     CesiumTerrainProvider
 } from "cesium";
+import * as Cesium from "cesium";
 
-export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string, dataTerrain: string): Viewer {
+export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string): Viewer {
     if (cesiumBaseURL) {
         window.CESIUM_BASE_URL = cesiumBaseURL;
     }
@@ -19,6 +20,9 @@ export function createCesiumViewer(container: HTMLElement, cesiumBaseURL: string
         // console.error('Error creating terrain provider:', error);
         // Handle the error as needed, possibly setting terrainProvider to a default value
     }
+
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZWJiNzJiMC1hZGNmLTRhYTctOGYwZS02ZDBiYmQ0NjU4NTgiLCJpZCI6MTE1OTcwLCJpYXQiOjE2NjkyODY0Njd9.JAp-JdI_eee7oBE2E8gUhB-By3XaUHCLhZ0YnW0znpo";
+
 
     const viewer = new Viewer(container, {
         animation: false,

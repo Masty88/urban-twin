@@ -6,10 +6,11 @@ export const styles = css `
       stroke-dasharray: 0 100;
     }
   }
-
   .circle-animate {
     animation: progress 2s linear forwards;
   }
+
+  
 
   #loadingScreen {
     position: fixed;
@@ -36,6 +37,8 @@ export const styles = css `
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-wrap: wrap-reverse;
+    max-height: 100%; 
   }
   
   #legend{
@@ -54,6 +57,7 @@ export const styles = css `
       flex-direction: column;
       box-sizing: border-box;
       padding: 20px;
+      margin-right: 20px;
       //flex-flow: row nowrap;
   }
   
@@ -87,12 +91,70 @@ export const styles = css `
     margin-bottom: 20px;
     //flex-flow: row nowrap;
   }
+
+  #dataTreeContainer{
+    width: 100%;
+    max-width: 200px;
+    min-width: 100px;
+    height: auto;
+    min-height: 188px;
+    background-color: #3a3a3a;
+    border-radius: 20px;
+    color: #cbc118;
+    font-family: "Arial MT Black";
+    text-align: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    //flex-flow: row nowrap;
+  }
+
+  #dataC02Container{
+    width: 100%;
+    max-width: 200px;
+    min-width: 100px;
+    height: auto;
+    min-height: 188px;
+    background-color: #3a3a3a;
+    border-radius: 20px;
+    color: #cbc118;
+    font-family: "Arial MT Black";
+    text-align: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    //flex-flow: row nowrap;
+  }
   
   .dataSurface{
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  .count{
+    align-items: center;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+
+  .count svg{
+    width: 40%;
+    height: 40%;
+    margin-bottom: 20px;
+  }
+  
+  .counter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 0.9em;
   }
   
 
