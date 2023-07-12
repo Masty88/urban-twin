@@ -268,6 +268,7 @@ export class MapViewer extends LitElement{
             const target = this.urbanTree;
             const inc = target / speed;
 
+            // @ts-ignore
             if (this.currentTreeCount < target) {
                 this.currentTreeCount += Math.round(inc);
                 setTimeout(updateCount, 1);
