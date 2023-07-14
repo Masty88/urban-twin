@@ -25,6 +25,24 @@ function hashStringToColor(str: string): Color {
     return Color.fromCssColorString("#" + "00000".substring(0, 6 - c.length) + c);
 }
 
+function lerp(start: number, end: number, t: number) {
+    return start * (1 - t) + end * t;
+}
+
+function generateColor(value: number): Color {
+    const normalizedValue = value / 70000;
+
+    const startColor = Color.ORANGE;
+    const endColor = Color.YELLOW;
+
+    const red = lerp(startColor.red, endColor.red, normalizedValue);
+    const green = lerp(startColor.green, endColor.green, normalizedValue);
+    const blue = lerp(startColor.blue, endColor.blue, normalizedValue);
+
+    return new Color(red, green, blue, 1); // L'ultimo parametro è l'alpha (trasparenza), che qui è impostato al massimo (nessuna trasparenza)
+}
+
+
 export async function addData(viewer: any, data: string, contour: boolean, colorize: string | undefined) : Promise< DataSource | undefined> {
     try {
         GeoJsonDataSource.clampToGround = true;
@@ -44,6 +62,20 @@ export async function addData(viewer: any, data: string, contour: boolean, color
                 pixelSize: 15
             });
             entity.label = undefined;
+            if (entity.properties) {
+                const kWh = entity.properties['kWh'];
+                if (kWh) {
+                    const value = kWh.getValue();
+                    console.log('value',typeof value)
+                    if (typeof value === 'number') {
+                        // Genera un colore basato sul valore kWh
+                        const color = generateColor(value);
+                        if (entity.polygon) {
+                            entity.polygon.material = new ColorMaterialProperty(color);
+                        }
+                    }
+                }
+            }
             if (entity.properties && entity.properties[colorize]) {
                 // @ts-ignore
                 const zone = entity.properties[colorize].getValue();

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "start": "parcel index.html"
+    "start": "parcel dev/index.html"
   },
   "keywords": [
     "cesium",
