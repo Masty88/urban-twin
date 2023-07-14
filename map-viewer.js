@@ -11,7 +11,6 @@ import './composants/toggle-data.js';
 import { createCesiumViewer, zoomToDataSource } from "./cesium/cesiumHelpers";
 import { addData, addTileset } from './cesium/dataLoader';
 import { styles } from "./styles/styles";
-import apiService from "./api/apiService";
 import { legend } from "./cesium/dataLoader";
 let MapViewer = class MapViewer extends LitElement {
     constructor() {
@@ -196,9 +195,12 @@ let MapViewer = class MapViewer extends LitElement {
     async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
         this._viewer = createCesiumViewer(this.shadowRoot.getElementById("cesiumContainer"), this.cesiumBaseURL);
-        this.forestCover = await apiService.getData("percentage", 'forest');
-        this.areaForestCover = await apiService.getData("area", 'forest');
-        this.urbanTree = await apiService.getData("trees");
+        // this.forestCover = await apiService.getData("percentage", 'forest');
+        // this.areaForestCover = await apiService.getData("area", 'forest');
+        // this.urbanTree = await apiService.getData("trees");
+        this.forestCover = "64.4 %";
+        this.areaForestCover = "10.79";
+        this.urbanTree = "10706";
     }
     animateCounters() {
         const speed = 200; // The lower the slower

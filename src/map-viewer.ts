@@ -53,7 +53,7 @@ export class MapViewer extends LitElement{
 
     @property({type: String}) forestCover = "";
     @property({type: String}) areaForestCover = "";
-    @property({type: Number}) currentTreeCount = 0;
+    @property({type: Number}) currentTreeCount: string = 0;
     @property({type: String}) urbanTree = "";
 
 
@@ -256,9 +256,13 @@ export class MapViewer extends LitElement{
             this.cesiumBaseURL,
         );
 
-        this.forestCover = await apiService.getData("percentage", 'forest');
-        this.areaForestCover = await apiService.getData("area", 'forest');
-        this.urbanTree = await apiService.getData("trees");
+        // this.forestCover = await apiService.getData("percentage", 'forest');
+        // this.areaForestCover = await apiService.getData("area", 'forest');
+        // this.urbanTree = await apiService.getData("trees");
+
+        this.forestCover = "64.4 %";
+        this.areaForestCover = "10.79";
+        this.urbanTree = "10706";
     }
 
     animateCounters() {

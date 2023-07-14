@@ -23,7 +23,7 @@ export declare class MapViewer extends LitElement {
     }>;
     forestCover: string;
     areaForestCover: string;
-    currentTreeCount: number;
+    currentTreeCount: string;
     urbanTree: string;
     private _viewer;
     constructor();
